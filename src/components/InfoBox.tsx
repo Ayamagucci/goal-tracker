@@ -14,10 +14,8 @@ type WarningProps = {
   children: ReactNode;
 };
 
-type InfoBoxProps = HintProps | WarningProps;
-
 export default function InfoBox(
-  props: InfoBoxProps
+  props: HintProps | WarningProps
 ) {
   const { mode, children } = props;
   if (mode === 'hint') {
