@@ -11,7 +11,9 @@ interface ListProps {
 export default function GoalList(
   { goals, handleDelete }: ListProps
 ) {
-  if (goals.length === 0) {
+  const goalCount = goals.length;
+
+  if (goalCount === 0) {
     return (
       <InfoBox mode='hint'>
         You have no course goals yet — start adding some!
@@ -19,11 +21,20 @@ export default function GoalList(
     );
   }
 
-  let warningBox: ReactNode; // default: undefined
-  if (goals.length >= 4) {
+  let warningBox: (ReactNode | null) = null; // default: null
+
+  if (goalCount >= 4) {
+    let severity: ('low' | 'medium' | 'high') = 'low'; // default: 'low'
+
+    if (goalCount >= 6 && goalCount < 8) {
+      severity = 'medium';
+    } else if (goalCount >= 8) {
+      severity = 'high';
+    }
+
     warningBox = (
-      <InfoBox mode='warning'>
-        You're collecting a lot of goals — don't be too ambitious!
+      <InfoBox mode='warning' severity={ severity }>
+        { `You have ${goalCount} goals — consider focusing on fewer to maintain your productivity!` }
       </InfoBox>
     );
   }
